@@ -1,6 +1,10 @@
 package meldeschein
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/hashicorp/go-multierror"
+)
 
 type Identifikation struct {
 	Erzeugung     Date   `xml:"erzeugung"`
@@ -11,6 +15,14 @@ type Identifikation struct {
 }
 
 type Fehlermeldungen []Fehler
+
+func (ff Fehlermeldungen) Error() string {
+	errs := []error{}
+	for _, f := range ff {
+		errs = append(errs, error(f))
+	}
+	return multierror.ListFormatFunc(errs)
+}
 
 type Fehler struct {
 	Code         string `xml:"code"`

@@ -145,7 +145,10 @@ func (r *PostMeldeschein) Do() (PostMeldescheinResponseBody, error) {
 	}
 
 	if len(responseBody.Fehlermeldungen) > 0 {
-		return *responseBody, responseBody.Fehlermeldungen[0]
+		// 10001: Meldeschein-Buchen erfolgreich
+		if responseBody.Fehlermeldungen[0].Code != "10001" {
+			return *responseBody, responseBody.Fehlermeldungen
+		}
 	}
 
 	return *responseBody, nil
