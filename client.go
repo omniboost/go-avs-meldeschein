@@ -290,7 +290,10 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	}
 
 	if soapError.Body.Fault.FaultCode != "" || soapError.Body.Fault.FaultString != "" {
-		return httpResp, &ErrorResponse{Response: httpResp, Err: soapError}
+		if soapError.Body.Fault.FaultCode != "10001" {
+			// Meldeschein-Buchen erfolgreich
+			return httpResp, &ErrorResponse{Response: httpResp, Err: soapError}
+		}
 	}
 
 	// if len(errorResponse.Messages) > 0 {
