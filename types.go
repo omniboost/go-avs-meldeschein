@@ -36,6 +36,7 @@ func (f Fehler) Error() string {
 
 type Meldeschein struct {
 	Buchungsnummer         string               `xml:"buchungsnummer,omitempty"`
+	Meldescheinnummer      int                  `xml:"meldescheinnummer,omitempty"`
 	FirmaID                int                  `xml:"firmaid,omitempty"`
 	ObjektID               int                  `xml:"objektid,omitempty"`
 	Anreise                Date                 `xml:"anreise"`
