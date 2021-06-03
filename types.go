@@ -67,6 +67,7 @@ type Meldeschein struct {
 		Abreise      Date   `xml:"abreise"`
 		Ausweisnr    string `xml:"ausweisnr"`
 	} `xml:"begleitperson"`
+	Abrechnungstatusid string `xml:"abrechnungstatusid"`
 }
 
 type Land struct {
