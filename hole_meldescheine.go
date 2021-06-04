@@ -119,8 +119,8 @@ func (r *GetMeldescheine) NewResponseBody() *GetMeldescheineResponseBody {
 type GetMeldescheineResponseBody struct {
 	XMLName xml.Name `xml:"holeMeldescheineResponse"`
 
-	Identifikation  Identifikation  `xml:"identifikation"`
-	Fehlermeldungen Fehlermeldungen `xml:"fehlermeldungen"`
+	Fehlermeldungen Fehlermeldungen `xml:"fehlermeldungen>fehler"`
+	Meldescheine    HoleMeldeschein `xml:"meldescheine"`
 }
 
 func (r *GetMeldescheine) URL() *url.URL {
@@ -145,5 +145,13 @@ func (r *GetMeldescheine) Do() (GetMeldescheineResponseBody, error) {
 
 	responseBody := r.NewResponseBody()
 	_, err = r.client.Do(req, responseBody)
+
+	if len(responseBody.Fehlermeldungen) > 0 {
+		// 10001: Meldeschein-Buchen erfolgreich
+		if responseBody.Fehlermeldungen[0].Code != "10001" {
+			return *responseBody, responseBody.Fehlermeldungen
+		}
+	}
+
 	return *responseBody, err
 }
