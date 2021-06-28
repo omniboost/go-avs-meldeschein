@@ -1,9 +1,11 @@
 package meldeschein
 
 import (
+	"encoding/xml"
 	"fmt"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/omniboost/go-avs-meldeschein/omitempty"
 )
 
 type Identifikation struct {
@@ -68,6 +70,14 @@ type Meldeschein struct {
 		Ausweisnr    string `xml:"ausweisnr"`
 	} `xml:"begleitperson"`
 	Abrechnungstatusid string `xml:"abrechnungstatusid"`
+}
+
+func (m Meldeschein) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return omitempty.MarshalXML(m, e, start)
+}
+
+func (m Meldeschein) MarshalJSON() ([]byte, error) {
+	return omitempty.MarshalJSON(m)
 }
 
 type Land struct {

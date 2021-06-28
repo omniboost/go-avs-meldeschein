@@ -16,10 +16,24 @@ func (d Date) MarshalSchema() string {
 	return d.Time.Format("2006-01-02")
 }
 
-func (d Date) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+func (d Date) IsEmpty() bool {
 	if d.Time.IsZero() {
+		return true
+	}
+
+	s := d.Time.Format("2006-01-02")
+	if s == "1899-12-30" {
+		return true
+	}
+
+	return false
+}
+
+func (d Date) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	if d.IsEmpty() {
 		return e.EncodeElement("", start)
 	}
+
 	return e.EncodeElement(d.Time.Format("2006-01-02"), start)
 }
 
