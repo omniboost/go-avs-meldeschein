@@ -55,21 +55,12 @@ type Meldeschein struct {
 	// Land                   Land   `xml:"land"`
 	StaatsangehoerigkeitID int `xml:"staatsangehoerigkeitid"`
 	// Staatsangehoerigkeit   Staatsangehoerigkeit `xml:"staatsangehoerigkeit"`
-	WeitereAngaben string `xml:"weitere_angaben"`
-	Ausweisnr      string `xml:"ausweisnr"`
-	Kfzkennzeichen string `xml:"kfzkennzeichen"`
-	Geburtsdatum   Date   `xml:"geburtsdatum"`
-	Begleitperson  []struct {
-		AnredeID     int    `xml:"anredeid"`
-		Name         string `xml:"name"`
-		Vorname      string `xml:"vorname"`
-		Geburtsdatum string `xml:"geburtsdatum"`
-		KategorieID  int    `xml:"kategorieid"`
-		Anreise      Date   `xml:"anreise"`
-		Abreise      Date   `xml:"abreise"`
-		Ausweisnr    string `xml:"ausweisnr"`
-	} `xml:"begleitperson"`
-	Abrechnungstatusid string `xml:"abrechnungstatusid"`
+	WeitereAngaben     string          `xml:"weitere_angaben"`
+	Ausweisnr          string          `xml:"ausweisnr"`
+	Kfzkennzeichen     string          `xml:"kfzkennzeichen"`
+	Geburtsdatum       Date            `xml:"geburtsdatum"`
+	Begleitperson      Begleitpersonen `xml:"begleitperson"`
+	Abrechnungstatusid string          `xml:"abrechnungstatusid"`
 }
 
 func (m Meldeschein) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
@@ -78,6 +69,27 @@ func (m Meldeschein) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 
 func (m Meldeschein) MarshalJSON() ([]byte, error) {
 	return omitempty.MarshalJSON(m)
+}
+
+type Begleitpersonen []Begleitperson
+
+type Begleitperson struct {
+	AnredeID     int    `xml:"anredeid"`
+	Name         string `xml:"name"`
+	Vorname      string `xml:"vorname"`
+	Geburtsdatum Date   `xml:"geburtsdatum"`
+	KategorieID  int    `xml:"kategorieid"`
+	Anreise      Date   `xml:"anreise"`
+	Abreise      Date   `xml:"abreise"`
+	Ausweisnr    string `xml:"ausweisnr"`
+}
+
+func (b Begleitperson) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return omitempty.MarshalXML(b, e, start)
+}
+
+func (b Begleitperson) MarshalJSON() ([]byte, error) {
+	return omitempty.MarshalJSON(b)
 }
 
 type Land struct {
