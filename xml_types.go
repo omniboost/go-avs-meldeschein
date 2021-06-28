@@ -65,9 +65,9 @@ func (d *Date) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) error {
 }
 
 func (d Date) MarshalJSON() ([]byte, error) {
-	if d.Time.IsZero() {
-		return []byte(""), nil
-	}
+	// if d.Time.IsZero() {
+	// 	return []byte(`""`), nil
+	// }
 	return json.Marshal(d.Format("2006-01-02"))
 }
 
