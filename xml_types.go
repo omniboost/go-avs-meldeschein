@@ -17,6 +17,9 @@ func (d Date) MarshalSchema() string {
 }
 
 func (d Date) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	if d.Time.IsZero() {
+		return e.EncodeElement("", start)
+	}
 	return e.EncodeElement(d.Time.Format("2006-01-02"), start)
 }
 
@@ -48,6 +51,9 @@ func (d *Date) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) error {
 }
 
 func (d Date) MarshalJSON() ([]byte, error) {
+	if d.Time.IsZero() {
+		return []byte(""), nil
+	}
 	return json.Marshal(d.Format("2006-01-02"))
 }
 
