@@ -116,6 +116,7 @@ type PostMeldescheinResponseBody struct {
 
 	Identifikation  Identifikation  `xml:"identifikation"`
 	Fehlermeldungen Fehlermeldungen `xml:"fehlermeldungen>fehler"`
+	Meldeschein     Meldeschein     `xml:"meldeschein"`
 }
 
 func (r *PostMeldeschein) URL() *url.URL {
