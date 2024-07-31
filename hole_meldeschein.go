@@ -97,6 +97,7 @@ type GetMeldescheinRequestBody struct {
 		Buchungsnummer    string `xml:"buchungsnummer,omitempty"`
 		Meldescheinnummer string `xml:"meldescheinnummer,omitempty"`
 		OrtID             int    `xml:"ort-id,omitempty"`
+		ObjektID          int    `xml:"objektid,omitempty"`
 	} `xml:"anfragedaten"`
 }
 
