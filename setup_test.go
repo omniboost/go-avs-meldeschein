@@ -17,8 +17,8 @@ func TestMain(m *testing.M) {
 	var err error
 
 	baseURLString := os.Getenv("BASE_URL")
-	username := os.Getenv("USERNAME")
-	password := os.Getenv("PASSWORD")
+	username := os.Getenv("AVS_USERNAME")
+	password := os.Getenv("AVS_PASSWORD")
 	debug := os.Getenv("DEBUG")
 	var baseURL *url.URL
 
