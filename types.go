@@ -76,14 +76,16 @@ func (m Meldeschein) MarshalJSON() ([]byte, error) {
 type Begleitpersonen []Begleitperson
 
 type Begleitperson struct {
-	AnredeID     int    `xml:"anredeid"`
-	Name         string `xml:"name"`
-	Vorname      string `xml:"vorname"`
-	Geburtsdatum Date   `xml:"geburtsdatum"`
-	KategorieID  int    `xml:"kategorieid"`
-	Anreise      Date   `xml:"anreise"`
-	Abreise      Date   `xml:"abreise"`
-	Ausweisnr    string `xml:"ausweisnr"`
+	AnredeID      int    `xml:"anredeid"`
+	Name          string `xml:"name"`
+	Vorname       string `xml:"vorname"`
+	Geburtsdatum  Date   `xml:"geburtsdatum"`
+	KategorieID   int    `xml:"kategorieid"`
+	Anreise       Date   `xml:"anreise"`
+	Abreise       Date   `xml:"abreise"`
+	Ausweisnr     string `xml:"ausweisnr"`
+	Email         string `xml:"email"`
+	DigitGastkart bool   `xml:"digit_gastkart"`
 }
 
 func (b Begleitperson) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
