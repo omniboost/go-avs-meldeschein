@@ -283,14 +283,19 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	}
 
 	soapError := SoapError{}
+	fehlerResponse := FehlerResponse{}
 
-	err = c.Unmarshal(httpResp.Body, &soapResponse, &soapError)
+	err = c.Unmarshal(httpResp.Body, &soapResponse, &soapError, &fehlerResponse)
 	if err != nil {
 		return httpResp, err
 	}
 
-	if soapError.Body.Fault.FaultCode != "" || soapError.Body.Fault.FaultString != "" {
+	if soapError.Error() != "" {
 		return httpResp, &ErrorResponse{Response: httpResp, Err: soapError}
+	}
+
+	if fehlerResponse.Error() != "" {
+		return httpResp, &ErrorResponse{Response: httpResp, Err: fehlerResponse}
 	}
 
 	// if len(errorResponse.Messages) > 0 {
@@ -416,6 +421,9 @@ type SoapError struct {
 }
 
 func (e SoapError) Error() string {
+	if e.Body.Fault.FaultCode == "" && e.Body.Fault.FaultString == "" {
+		return ""
+	}
 	return fmt.Sprintf("%s: %s", e.Body.Fault.FaultCode, e.Body.Fault.FaultString)
 }
 
@@ -429,6 +437,28 @@ type ErrorResponse struct {
 
 func (r *ErrorResponse) Error() string {
 	return r.Err.Error()
+}
+
+type FehlerResponse struct {
+	XMLName xml.Name `xml:"Envelope"`
+	Body    struct {
+		Response struct {
+			Fehlermeldungen Fehlermeldungen `xml:"fehlermeldungen>fehler"`
+		} `xml:",any"`
+	} `xml:"Body"`
+}
+
+func (r FehlerResponse) Error() string {
+	if len(r.Body.Response.Fehlermeldungen) > 0 {
+		// 10001: Meldeschein-Buchen erfolgreich
+		if r.Body.Response.Fehlermeldungen[0].Code == "10001" {
+			return ""
+		}
+
+		return r.Body.Response.Fehlermeldungen.Error()
+	}
+
+	return ""
 }
 
 func checkContentType(response *http.Response) error {
