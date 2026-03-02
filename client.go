@@ -461,6 +461,15 @@ func (r FehlerResponse) Error() string {
 	return ""
 }
 
+func (f FehlerResponse) ContainsErrorCode(code string) bool {
+	for _, f := range f.Body.Response.Fehlermeldungen {
+		if f.Code == code {
+			return true
+		}
+	}
+	return false
+}
+
 func checkContentType(response *http.Response) error {
 	header := response.Header.Get("Content-Type")
 	contentType := strings.Split(header, ";")[0]

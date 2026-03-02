@@ -18,9 +18,9 @@ type Identifikation struct {
 
 type Fehlermeldungen []Fehler
 
-func (ff Fehlermeldungen) Error() string {
+func (f Fehlermeldungen) Error() string {
 	errs := []error{}
-	for _, f := range ff {
+	for _, f := range f {
 		errs = append(errs, error(f))
 	}
 	return multierror.ListFormatFunc(errs)
