@@ -76,6 +76,7 @@ func (m Meldeschein) MarshalJSON() ([]byte, error) {
 type Begleitpersonen []Begleitperson
 
 type Begleitperson struct {
+	PersonID      string `xml:"personid,omitempty"`
 	AnredeID      int    `xml:"anredeid"`
 	Name          string `xml:"name"`
 	Vorname       string `xml:"vorname"`
