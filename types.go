@@ -55,14 +55,14 @@ type Meldeschein struct {
 	// Land                   Land   `xml:"land"`
 	StaatsangehoerigkeitID int `xml:"staatsangehoerigkeitid"`
 	// Staatsangehoerigkeit   Staatsangehoerigkeit `xml:"staatsangehoerigkeit"`
-	WeitereAngaben     string          `xml:"weitere_angaben"`
 	Ausweisnr          string          `xml:"ausweisnr"`
+	WeitereAngaben     string          `xml:"weitere_angaben"`
 	Kfzkennzeichen     string          `xml:"kfzkennzeichen"`
 	Geburtsdatum       Date            `xml:"geburtsdatum"`
 	Email              string          `xml:"email"`
 	DigitGastkart      bool            `xml:"digit_gastkart"`
-	Begleitperson      Begleitpersonen `xml:"begleitperson"`
 	Abrechnungstatusid string          `xml:"abrechnungstatusid"`
+	Begleitperson      Begleitpersonen `xml:"begleitperson"`
 }
 
 func (m Meldeschein) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
