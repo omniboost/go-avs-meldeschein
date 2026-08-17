@@ -59,9 +59,9 @@ type Meldeschein struct {
 	WeitereAngaben     string          `xml:"weitere_angaben"`
 	Kfzkennzeichen     string          `xml:"kfzkennzeichen"`
 	Geburtsdatum       Date            `xml:"geburtsdatum"`
+	Abrechnungstatusid string          `xml:"abrechnungstatusid"`
 	Email              string          `xml:"email"`
 	DigitGastkart      bool            `xml:"digit_gastkart"`
-	Abrechnungstatusid string          `xml:"abrechnungstatusid"`
 	Begleitperson      Begleitpersonen `xml:"begleitperson"`
 }
 

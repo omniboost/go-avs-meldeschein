@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0-wls122140-b190328.0053 svn-revision#unknown. --><xsd:schema xmlns:ms="http://www.avs.meldeschein.de/ns/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:avs="http://www.avs.de/ns/" targetNamespace="http://www.avs.meldeschein.de/ns/">
+  <xsd:include schemaLocation="./meldeschein_datentypen.xsd"/>
+  <xsd:element name="meldescheine">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="identifikation" type="ms:cIdentifikation"/>
+        <xsd:element name="fehlermeldungen" type="ms:cFehlermeldungen" minOccurs="0"/>
+        <xsd:element minOccurs="1" maxOccurs="1" name="meldeschein" type="ms:cMs" form="qualified"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="holeMeldeschein">
+  	<!-- Suchkriterien fuer Meldescheine -->
+    <xsd:complexType>
+	<xsd:sequence>
+        <xsd:element name="identifikation" type="ms:cIdentifikation"/>
+        <xsd:element name="anfragedaten">
+        	<xsd:complexType>
+        		<xsd:choice>
+        			<xsd:element name="meldescheinnummer" type="ms:sMsnr"/>
+        			<xsd:sequence>
+        				<xsd:element name="buchungsnummer" type="ms:sBuchungsnummer"/>
+        				<xsd:element name="objektid" type="ms:sObjektidInt" minOccurs="0" nillable="false"/>
+        			</xsd:sequence><!-- Meldeschein-Nummer des Fremdsystems --><!-- wird vom Meldeschein-System vergeben -->
+        		</xsd:choice>
+        	</xsd:complexType>
+        </xsd:element>
+        <xsd:element name="fehlermeldungen" type="ms:cFehlermeldungen" minOccurs="0"/>
+        <xsd:element minOccurs="0" maxOccurs="1" name="meldeschein" type="ms:cMs" form="qualified"/>
+      </xsd:sequence>
+      
+	</xsd:complexType>
+	</xsd:element>
+  
+
+  <xsd:element name="meldeschein" type="ms:cMs">
+  	<!-- DEPREACATED ersetzt durch obigen Typ -->
+  </xsd:element>
+  
+
+  <xsd:element name="holeMeldescheineRequest">
+      <!-- Suchkriterien fuer Meldescheine -->
+      <xsd:complexType>
+          <xsd:sequence>
+              <xsd:element name="identifikation" type="ms:cIdentifikation"/>
+              <xsd:element name="anfragedaten" minOccurs="0">
+                  <xsd:complexType>
+                      <xsd:choice>
+                          <xsd:element name="buchungsnummer" type="ms:sBuchungsnummer"/><!-- Meldeschein-Nummer des Fremdsystems -->
+                          <xsd:element name="meldescheinnummer" type="ms:sMsnr"/><!-- wird vom Meldeschein-System vergeben -->
+                          <xsd:element name="ort-id" type="ms:sOrtId"/>
+                      </xsd:choice>
+                  </xsd:complexType>
+              </xsd:element>
+          </xsd:sequence>
+      </xsd:complexType>
+  </xsd:element>
+  
+
+  <xsd:element name="holeMeldescheineResponse">
+      <!-- Suchkriterien fuer Meldescheine -->
+      <xsd:complexType>
+          <xsd:sequence>
+              <xsd:element name="fehlermeldungen" type="ms:cFehlermeldungen" minOccurs="1"/>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="meldescheine" type="ms:cMeldeschein"/>
+          </xsd:sequence>
+      </xsd:complexType>
+  </xsd:element>
+  
+
+  <xsd:element name="druckeMeldescheineRequest">
+  	<!-- Suchkriterien fuer Meldescheine -->
+  	<xsd:complexType>
+  		<xsd:sequence>
+  			<xsd:element name="identifikation" type="ms:cIdentifikation"/>
+  			<xsd:element name="meldeschein" minOccurs="1" maxOccurs="unbounded">
+  				<xsd:complexType>
+  					<xsd:sequence>
+					<!-- Meldeschein-Nummer des Fremdsystems -->
+  						<xsd:element name="meldescheinnummer" type="ms:sMsnr"/><!-- wird vom Meldeschein-System vergeben -->
+  					</xsd:sequence>
+  				</xsd:complexType>
+  			</xsd:element>
+  		</xsd:sequence>
+  	</xsd:complexType>
+  </xsd:element>
+  
+
+  <xsd:element name="druckeMeldescheineResponse">
+  	<!-- Suchkriterien fuer Meldescheine -->
+  	<xsd:complexType>
+  		<xsd:sequence>
+  			<xsd:element name="version" type="ms:sVersion" minOccurs="0"/>
+  			<xsd:element name="fehlermeldungen" type="ms:cFehlermeldungen" minOccurs="1"/>
+  			<xsd:element minOccurs="0" maxOccurs="1" name="ms-pdf" type="ms:sBinaerdaten"/>
+  		</xsd:sequence>
+  	</xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="registerMeldescheineRequest">
+  	<!-- Suchkriterien fuer Meldescheine -->
+  	<xsd:complexType>
+  		<xsd:sequence>
+  			<xsd:element name="identifikation" type="ms:cIdentifikation"/>
+  			<xsd:element name="export-id" type="ms:sExportId" minOccurs="1" maxOccurs="unbounded"/>
+  		</xsd:sequence>
+  	</xsd:complexType>
+  </xsd:element>
+
+  <xsd:complexType name="cMs">
+  	<xsd:sequence>
+  		<xsd:element name="buchungsnummer" type="ms:sBuchungsnummer"/>
+  		<xsd:element name="kz_manuelle_ms" type="xsd:boolean" minOccurs="0"/>
+  		<!-- Meldeschein-Nummer des Fremdsystems  -->
+  		<xsd:element minOccurs="0" name="meldescheinnummer" type="ms:sMsnr"/><!-- wird vom Meldeschein-System vergeben -->
+                <xsd:element minOccurs="0" name="jkk" type="xsd:boolean"/>
+  		<xsd:element name="firmaid" type="ms:sFirmaid" minOccurs="0" nillable="false"/><!-- Firma-Id, ueber diese wird der Bezug zur Firma hergestellt -->
+  		<xsd:element name="objektid" type="ms:sObjektid" minOccurs="0" nillable="false"/><!-- Objekt-Id, ueber diese wird der Bezug zum Objekt hergestellt -->
+  		<xsd:element name="anreise" type="ms:sAnreise"/><!-- Berechnungs-Parameter -->
+  		<xsd:element name="abreise" type="ms:sAbreise"/><!-- Berechnungs-Parameter -->
+  		<xsd:element name="kategorieid" type="ms:sKategorieId"/><!-- Berechnungs-Parameter -->
+  		<xsd:element minOccurs="0" name="anredeid" type="ms:sAnredeId"/><!-- gemappter Tabellenwert -->
+  		<xsd:element name="name" type="ms:sName"/>
+  		<xsd:element minOccurs="0" name="vorname" type="ms:sName"/>
+  		<xsd:element minOccurs="0" name="strasse" type="ms:sStrasse"/>
+  		<xsd:element minOccurs="0" name="hausnummer" type="ms:sHausnummer"/>
+  		<xsd:element minOccurs="0" name="plz" type="ms:sPlz"/>
+  		<xsd:element minOccurs="0" name="ort" type="ms:sOrt"/>
+  		<xsd:element minOccurs="0" name="landid" type="xsd:long"/><!-- gemappter Tabellenwert -->
+  		<xsd:element name="land" type="ms:cLand" minOccurs="0"/>
+  		<xsd:element minOccurs="0" name="staatsangehoerigkeitid" type="xsd:long"/><!-- gemappter Tabellenwert -->
+  		<xsd:element name="staatsangehoerigkeit" type="ms:cLand" minOccurs="0"/>
+                <xsd:element minOccurs="0" name="ausweisnr" type="xsd:string"/> <!--Ausweisnummer-->
+  		<xsd:element minOccurs="0" name="weitere_angaben" type="ms:sAusweisnummer"><!-- nur Ziffern erlaubt --></xsd:element>      
+  		<xsd:element minOccurs="0" name="kfzkennzeichen" type="xsd:string"/>
+  		<xsd:element minOccurs="0" name="geburtsdatum" type="ms:sGeburtsdatum"/>
+                <xsd:element minOccurs="0" name="manueller_betrag" type="ms:sBetrag"/>
+  		<xsd:element minOccurs="0" name="betrag" type="ms:sBetrag"/><!-- wird vom Meldeschein-System berechnet und zurueckgegeben -->
+  		<xsd:element name="abrechnungstatusid" type="ms:sAbrechnungstatusId" minOccurs="0"/><!-- todo: klaeren, ob notwendig -->
+		<xsd:element name="zusatzfelder" type="ms:cMeldescheinZusatzfelder" minOccurs="0"/>
+  		<xsd:element name="indiv-zusatzfelder" type="ms:cIndivZusatzfelder" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element name="email" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="digit_gastkart" type="xsd:boolean" minOccurs="0"/>
+                <xsd:element minOccurs="0" name="ue-e-gelt" type="ms:sBetrag"/>
+                <xsd:element name="authentifizierung" type="xsd:string" minOccurs="0"/>
+                <xsd:element minOccurs="0" name="weitere_kosten" type="ms:sBetrag"/>
+  		<xsd:choice>
+  			<xsd:element minOccurs="0" maxOccurs="unbounded" name="begleitperson" type="ms:cBegleitperson"/>
+  			<xsd:element name="begleitgruppe" type="ms:cBegleitgruppe" maxOccurs="unbounded" minOccurs="0"/>
+  		</xsd:choice>
+  	</xsd:sequence>
+  </xsd:complexType>
+ </xsd:schema>

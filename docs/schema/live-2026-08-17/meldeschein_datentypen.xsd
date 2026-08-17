@@ -1,0 +1,744 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0-wls122140-b190328.0053 svn-revision#unknown. --><xsd:schema xmlns:ms="http://www.avs.meldeschein.de/ns/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:avs="http://www.avs.de/ns/" targetNamespace="http://www.avs.meldeschein.de/ns/">
+	<xsd:complexType name="cObjekt">
+		<xsd:sequence>
+			<!-- Beherbergunsbetrieb -->
+			<xsd:element name="objektid" type="ms:sObjektid" minOccurs="0" nillable="false"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="bezeichnung" type="ms:sBezeichnung"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="betriebsschluessel" type="ms:sBetriebsschluessel"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="kurtaxzoneid" type="ms:sKurtaxzoneId"/><!-- von uns gelieferter Wertebereich -->
+			<xsd:element maxOccurs="1" minOccurs="1" name="kurtaxortid" type="ms:sKurtaxortId"/><!-- von uns gelieferter Wertebereich -->
+			<xsd:element maxOccurs="1" minOccurs="1" name="objektartid" type="ms:sObjektArtId"/><!-- gemappter Tabellenwert -->
+			<xsd:element maxOccurs="1" minOccurs="0" name="sonderkennungid" type="ms:sSonderkennungId"/><!-- Hotel-Id des Fremdsystems -->
+			<xsd:element maxOccurs="1" minOccurs="0" name="bettenanzahl" type="ms:sBettenanzahl"/>
+			<xsd:element minOccurs="1" maxOccurs="unbounded" name="adresse" type="ms:cAdresse"/>
+			<xsd:element name="rechnung_immer_eigentuemer" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="cBegleitperson">
+		<!-- Begleitpersonen beim Buchen eines Meldescheins -->
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="personid" type="ms:sPersonId"/>
+			<xsd:element minOccurs="0" name="anredeid" type="ms:sAnredeId"/>
+			<xsd:element name="name" type="ms:sName"/>
+			<xsd:element minOccurs="0" name="vorname" type="ms:sName"/>
+			<xsd:element minOccurs="0" name="geburtsdatum" type="ms:sGeburtsdatum"/>
+			<xsd:element name="kategorieid" type="ms:sKategorieId"/><!-- Berechnungs-Parameter -->
+			<xsd:element minOccurs="0" name="anreise" type="ms:sAnreise"/><!-- Berechnungs-Parameter -->
+			<xsd:element minOccurs="0" name="abreise" type="ms:sAbreise"/><!-- Berechnungs-Parameter -->
+      <xsd:element minOccurs="0" name="staatsangehoerigkeitid" type="xsd:long"/><!-- gemappter Tabellenwert -->
+  		<xsd:element name="staatsangehoerigkeit" type="ms:cLand" minOccurs="0"/>
+      <xsd:element minOccurs="0" name="ausweisnr" type="xsd:string"/>
+			<xsd:element name="barcode" type="ms:sBarcode" minOccurs="0"/>
+			<xsd:element minOccurs="0" name="betrag" type="ms:sBetrag"/>
+                        <xsd:element name="email" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="digit_gastkart" type="xsd:boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cBegleitgruppe">
+		<!-- Begleitpersonen beim Buchen eines Gruppen-Meldescheins -->
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="personid" type="ms:sPersonId"/>
+			<xsd:element name="kategorieid" type="ms:sKategorieId"/><!-- Berechnungs-Parameter -->
+			<xsd:element name="anzahl" type="xsd:int"/><!-- Berechnungs-Parameter -->
+			<xsd:element minOccurs="0" name="betrag" type="ms:sBetrag"/>
+      <xsd:element minOccurs="0" name="ausweisnr" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="cBenutzer">
+		<!-- Benutzer im JMeldeschein-System -> Berechtigungen -->
+		<xsd:sequence>
+			<xsd:element name="benutzerid" type="xsd:long"/><!-- Id des Fremdsystems -->
+			<xsd:element name="kennung" type="ms:sKennung"/>
+			<xsd:element name="passwort" type="ms:sPasswort"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="firmenbetriebsnummer" type="ms:sBetriebsNummer"/><!-- Benutzer darf nur unter dieser Firma 'arbeiten' -->
+			<xsd:element maxOccurs="1" minOccurs="1" name="anwenderkz" type="ms:sAnwenderKz"/><!-- Admin- oder Mitarbeiterrechte (siehe Datentyp) -->
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="cAdresse">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="firmenadressname" type="ms:sFirmenname">
+				<!-- wird auf der Rechnung ueber der Anschrift angedruckt -->
+			</xsd:element>
+			<xsd:element minOccurs="1" name="adressartid" type="ms:sAdressArtId" maxOccurs="1"><!-- gemappter Tabellenwert --></xsd:element>
+			<xsd:element minOccurs="0" name="anredeid" type="ms:sAnredeId"><!-- gemappter Tabellenwert --></xsd:element>
+			<xsd:element name="anrede" type="ms:sAnrede" minOccurs="0"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="titel" type="ms:sTitel"/>
+			<xsd:element minOccurs="0" name="vorname" type="ms:sName"/>
+			<xsd:element minOccurs="0" name="name" type="ms:sName" maxOccurs="1"/>
+			<xsd:element minOccurs="0" name="strasse" type="ms:sStrasse"/>
+			<xsd:element minOccurs="0" name="hausnummer" type="ms:sHausnummer"/>
+			<xsd:element minOccurs="0" name="plz" type="ms:sPlz"/>
+			<xsd:element minOccurs="0" name="ort" type="ms:sOrt"/>
+			<xsd:element name="land" type="ms:cLand" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cKommunikation">
+		<xsd:sequence>
+			<!-- Kommunikation  -->
+			<xsd:element maxOccurs="1" minOccurs="1" name="anschlusstypid" type="ms:sAnschlussTypId"><!-- todo: klaeren, ob gemappter Tabellenwert oder von uns gelieferter Wertebereich--></xsd:element>
+			<xsd:element minOccurs="0" name="anschlusskennung" type="ms:sAnschlusskennung"><!-- Telefonnummer, Email-Adresse etc. --></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cBankverbindung">
+		<xsd:sequence>
+			<!-- Bankverbindung  -->
+			<xsd:element minOccurs="0" name="zahlartid" type="ms:sZahlartId">
+				<!-- wird beim Rechnungsdruck beachtet : Ueberweisung oder Bankeinzug -->
+			</xsd:element>
+			<xsd:element minOccurs="0" name="bankverbindung" type="ms:sBankverbindung"/>
+			<xsd:element minOccurs="0" name="kontonummer" type="ms:sKontonummer"/>
+			<xsd:element minOccurs="0" name="bankleitzahl" type="ms:sBankleitzahl"/>
+			<xsd:element minOccurs="0" name="kontoinhaber" type="ms:sKontoinhaber"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cKurtaxzone">
+		<!-- von uns gelieferter Wertebereich -->
+		<xsd:sequence>
+			<xsd:element name="kurtaxzoneid" type="ms:sKurtaxzoneId"/>
+			<xsd:element name="bezeichnung" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cKurtaxort">
+		<!-- von uns gelieferter Wertebereich -->
+		<xsd:sequence>
+			<xsd:element name="kurtaxortid" type="ms:sKurtaxortId"/>
+			<xsd:element name="bezeichnung" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cBetriebsart">		
+		<!-- Firmenbetriebsarten: von uns gelieferter Wertebereich -->
+		<xsd:sequence>
+			<xsd:element name="betriebsartid" type="ms:sBetriebsartId"/>
+			<xsd:element name="bezeichnung" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>	
+        
+        <!-- Individuelle Zusatzfelder -->
+        <xsd:complexType name="cIndivZusatzfelder">
+            <xsd:sequence>
+                <xsd:element name="feld" type="xsd:string"/>
+                <xsd:element name="wert" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+        
+
+	<xsd:complexType name="cFehlermeldungen">
+	<!-- Fehlermeldungsblock, mit Fehlercode und -beschreibung. Wird kein Fehler zurueckgegeben, wird ein Eintrag mit dem Fehlercode 10001 eingetragen -->
+		<xsd:sequence maxOccurs="1" minOccurs="0">
+			<xsd:element name="fehler" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="code" type="ms:sFCode"/>
+						<xsd:element name="beschreibung" type="xsd:string"/>
+						<xsd:element name="bezug" type="xsd:string" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="cIdentifikation">
+	<!-- Identifikation, die jedem Webservice-Aufruf voran steht. 
+		todo: noch nicht endgueltige Definition -->
+		<xsd:sequence>
+			<xsd:element name="erzeugung" type="xsd:date"/>
+			<xsd:element name="schnittstelle" type="ms:sSchnittstelle"/>
+			<xsd:element name="kurverwaltung" type="ms:sKurverwaltung"/>
+			<xsd:element name="benutzerid" type="xsd:long" minOccurs="0"/>
+			<xsd:element name="sessionid" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="verarbeitung" type="ms:sVerarbeitung" minOccurs="1"/>
+			<xsd:element name="version" type="ms:sVersion" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cKonfigurationsdatensatz">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="text1" type="xsd:string" maxOccurs="1"/>
+			<xsd:element name="text2" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+   <xsd:element name="text3" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+  </xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cKonfigurationsliste">
+		<xsd:sequence>
+			<xsd:element name="konfigdatensatz" type="ms:cKonfigurationsdatensatz" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cParameter">
+		<xsd:sequence>
+			<xsd:element name="param" type="ms:sParameter" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="sBetriebsschluessel">
+	<!-- Von der Gemeinde vergebener Betriebsschluessel -->
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="4"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBetriebsartId">
+	<!-- Typ des Betriebes Campingplatz/Hotel usw -->
+		<xsd:restriction base="xsd:long">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="16"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sManuellerMeldschein">
+	<!-- elektronische oder manuelle Anlage der Meldescheine  -->
+		<xsd:restriction base="xsd:boolean"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sAufwandsentschaedigung">
+	<!-- Prozentsatz, den das Hotel vom Meldescheinbetrag gutgeschrieben bekommt -->
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sSteuernummer">
+	<!-- Vom Finanzamt vergebene Steuernummer -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sUmsatzsteuerIdNummer">
+	<!-- Umsatzsteuer IdNr. -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sFirmenname">
+	<!-- Firmenname fuer Rechnung -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sAdressArtId">
+	<!-- Art der Adresse Rechnung/privat : gemappter Tabellenwert -->
+		<xsd:restriction base="xsd:long">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Alt, wir steigen um auf Class Integer 
+	<xsd:simpleType name="sAnredeId">
+		<xsd:restriction base="xsd:long"></xsd:restriction>
+	</xsd:simpleType>
+	-->
+	<xsd:simpleType name="sAnrede">
+	<!-- direkte Angabe der Anrede, beschraenkt auf Herr und Frau (und Leereintrag) -->
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Herr"/>
+			<xsd:enumeration value="Frau"/>
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sTitel">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="-"/>
+			<xsd:enumeration value="B.A."/>
+			<xsd:enumeration value="Betriebs-Ingenieur"/>
+			<xsd:enumeration value="Betriebswirt"/>
+			<xsd:enumeration value="Betriebswirt (VWA)"/>
+			<xsd:enumeration value="Bürgermeister"/>
+			<xsd:enumeration value="DI"/>
+			<xsd:enumeration value="Dipl. Betr.wirt"/>
+			<xsd:enumeration value="Dipl. Ing."/>
+			<xsd:enumeration value="Dipl. Ing. (FH)"/>
+			<xsd:enumeration value="Dipl. Kfm."/>
+			<xsd:enumeration value="Dipl.-Betr.wirt (BA)"/>
+			<xsd:enumeration value="Dipl.-Betr.wirt (FH)"/>
+			<xsd:enumeration value="Dipl.-Betriebswirt"/>
+			<xsd:enumeration value="Dipl.-Betriebswirtin"/>
+			<xsd:enumeration value="Dipl.-Biologin"/>
+			<xsd:enumeration value="Dipl.-Chem."/>
+			<xsd:enumeration value="Dipl.-Chem. Ing."/>
+			<xsd:enumeration value="Dipl.-Finanzwirt"/>
+			<xsd:enumeration value="Dipl.-Ing."/>
+			<xsd:enumeration value="Dipl.-Ing. (BA)"/>
+			<xsd:enumeration value="Dipl.-Ing. (FH)"/>
+			<xsd:enumeration value="Dipl.-Ing. (TU)"/>
+			<xsd:enumeration value="Dipl.-Kffr."/>
+			<xsd:enumeration value="Dipl.-Kfm."/>
+			<xsd:enumeration value="Dipl.-Kfm. / Dipl.-Ing"/>
+			<xsd:enumeration value="Dipl.-Ökonom"/>
+			<xsd:enumeration value="Dipl.-Phys."/>
+			<xsd:enumeration value="Dipl.-Volkswirt"/>
+			<xsd:enumeration value="Direktor"/>
+			<xsd:enumeration value="Dr.-jur.utr."/>
+			<xsd:enumeration value="Dr.med.Dipl.psych"/>
+			<xsd:enumeration value="Dr.med.habil"/>
+			<xsd:enumeration value="Dr.paed."/>
+			<xsd:enumeration value="Dr."/>
+			<xsd:enumeration value="Dr.Dr."/>
+			<xsd:enumeration value="Dr. med. dent"/>
+			<xsd:enumeration value="Dr. sc."/>
+			<xsd:enumeration value="Dr.Div."/>
+			<xsd:enumeration value="Dr. Dipl.-Ing."/>
+			<xsd:enumeration value="Dr.Rer.Pol.Dipl."/>
+			<xsd:enumeration value="Dr.h.c."/>
+			<xsd:enumeration value="Dr. Ing."/>
+			<xsd:enumeration value="Dr. Ing. agr."/>
+			<xsd:enumeration value="Dr. theol."/>
+			<xsd:enumeration value="Dr.jur."/>
+			<xsd:enumeration value="Dr. Mag."/>
+			<xsd:enumeration value="Dr. med."/>
+			<xsd:enumeration value="Dr. med. vet."/>
+			<xsd:enumeration value="Dr.oec."/>
+			<xsd:enumeration value="Dres. Med."/>
+			<xsd:enumeration value="Dres.med.dent."/>
+			<xsd:enumeration value="Ing."/>
+			<xsd:enumeration value="Ing. (grad.)"/>
+			<xsd:enumeration value="Inh."/>
+			<xsd:enumeration value="Kaufm. Direktor"/>
+			<xsd:enumeration value="Mag."/>
+			<xsd:enumeration value="Mag. Dr."/>
+			<xsd:enumeration value="Managing Director"/>
+			<xsd:enumeration value="MBA"/>
+			<xsd:enumeration value="MdL"/>
+			<xsd:enumeration value="Meister"/>
+			<xsd:enumeration value="Oberbürgermeister"/>
+			<xsd:enumeration value="Pater"/>
+			<xsd:enumeration value="Pfarrer"/>
+			<xsd:enumeration value="Prof."/>
+			<xsd:enumeration value="Prof. Dr. Dr.Dipl."/>
+			<xsd:enumeration value="Prof. Dr. Ing."/>
+			<xsd:enumeration value="Prof. Dr. med."/>
+			<xsd:enumeration value="Prof. Dr. mult."/>
+			<xsd:enumeration value="Prof. Dr."/>
+			<xsd:enumeration value="Prof. h.c."/>
+			<xsd:enumeration value="Prokurist"/>
+			<xsd:enumeration value="Rechtsanwalt"/>
+			<xsd:enumeration value="Textil-Ing."/>
+			<xsd:enumeration value="Verbandsvorsitzender"/>
+			<xsd:enumeration value="Verwaltungsleiterin"/>
+			<xsd:enumeration value="Vice President"/>
+			<xsd:enumeration value="Dr.Dr.med."/>
+			<xsd:enumeration value="Dr.phil."/>
+			<xsd:enumeration value="Dr.phil.nat."/>
+			<xsd:enumeration value="Dr.rer.nat."/>
+			<xsd:enumeration value="Dr.rer.pol."/>
+			<xsd:enumeration value="Priv.-Doz. Dr.med."/>
+			<xsd:enumeration value="Prof. Dr. Dr."/>
+			<xsd:enumeration value="Prof. Dr. sc"/>
+			<xsd:enumeration value="Prof. Dr.med.habil."/>
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sName">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sStrasse">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sHausnummer">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sPlz">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sOrt">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sPostfach">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sPostfachPlz">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="sAnschlusskennung">
+	<!-- Telefonnummer; eMail -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="sAnschlussTypId">
+	<!-- Typ der Kommunikationsverbindung : todo: gemappter Tabellenwert ?? -->
+		<xsd:restriction base="xsd:long">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sZahlartId">
+	<!-- ID der Zahlart 1 (Ueberweisung) oder 2 ( Bankeinzug) -->
+		<xsd:restriction base="xsd:long">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBankverbindung">
+	<!-- Name des Kreditinstitutes -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKontonummer">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBankleitzahl">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="15"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Provision">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:pattern value="([0-9]{1,4}).([0-9]{1,2})"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKontoinhaber">
+	<!-- Name des Kontoinhabers -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBezeichnung">
+	<!-- Name des Hotels -->
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="3"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKurtaxzoneId">
+	<!-- von uns gelieferter Wertebereich -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKurtaxortId">
+	<!-- von uns gelieferter Wertebereich -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sFremdObjektNummer">
+	<!-- evtl. eindeutiger Objektidentifier von Fremdsystemen 
+  HK23.10.2007 wird wahr scheinlich verworfen und durch sBetriebsschluessel verwendet-->
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sObjektArtId">
+	<!-- gemappter Tabellenwert  -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBettenanzahl">
+		<xsd:restriction base="xsd:int"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sSonderkennungId">
+	<!-- All-Inkl.-Kennung -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBetriebsNummer">
+	<!--Von der Gemeinde vergebene Betriebsnummer; Sollte systemuebergreifend eindeutiger Schluessel sein-->
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sGeburtsdatum">
+		<xsd:restriction base="xsd:date"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sKategorie">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="9"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKategorieId">
+	<!-- Erwachsener, Kind ... Berechnungsparameter fuer Meldescheinbetrag -->
+		<xsd:restriction base="xsd:int"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sAnreise">
+	<!-- Berechnungsparameter fuer Meldescheinbetrag -->
+		<xsd:restriction base="xsd:date"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sAbreise">
+	<!-- Berechnungsparameter fuer Meldescheinbetrag -->
+		<xsd:restriction base="xsd:date"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sVermittlerKz">
+	<!-- 0: kein vermitteltes Objekt; 1: vermitteltes Objekt -->
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBenutzerId">
+	<!-- Benutzerid, wird bei der Identifikation uebertragen -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKennung">
+	<!-- Benutzername -->
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sPasswort">
+	<!-- Passwort des Benutzers -->
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sAnwenderKz">
+	<!-- Berechtigungen des Benutzers -->
+		<xsd:restriction base="xsd:int">
+			<xsd:enumeration value="1"/><!-- Gemeinde-Admin -->
+			<xsd:enumeration value="2"/><!-- Gemeinde-Mitarbeiter -->
+			<xsd:enumeration value="3"/><!-- Hotel-Admin -->
+			<xsd:enumeration value="4"/><!-- Hotel-Mitarbeiter -->
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sJahreskurkarte">
+	<!-- Meldeschein-Typ -->
+		<xsd:restriction base="xsd:integer">
+          <xsd:minInclusive value="1"/>
+          <xsd:maxInclusive value="1"/>
+        </xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sHerkunftsId">
+	<!-- Fuer mobile Meldescheinerfassung -->
+		<xsd:restriction base="xsd:string">
+		  <xsd:minLength value="1"/>
+		  <xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sBenutzer">
+		<xsd:restriction base="xsd:string">
+		<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sMsnr">
+	<!-- wird vom Meldeschein-System vergeben -->
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBuchungsnummer">
+	<!-- Meldescheinnummer des Fremdsystems -->
+		<xsd:restriction base="xsd:string">
+		<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sAusweisnummer">
+		<xsd:restriction base="xsd:string">	
+    <xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sFirmaid">
+	<!-- Firmaid im Meldescheinsystem -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sObjektid">
+	<!-- Objektid im Meldescheinsystem -->
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sObjektidInt">
+	<!-- Objektid im Meldescheinsystem -->
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sBetrag">
+	<!-- berechneter Meldescheinbetrag im Meldescheinsystem -->
+		<xsd:restriction base="xsd:decimal"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sAbrechnungstatusId">
+		<xsd:restriction base="xsd:long"/>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sFCode">
+	<!-- Fehlercode -->
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sKurverwaltung">
+	<!-- MandantId / Id der Kurverwaltung. 
+		todo: im Moment vorgegebener Wertebereich (->Sicherheit) -->
+		<xsd:restriction base="xsd:string">
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="sSchnittstelle">
+	<!-- Schnittstellen-Bezeichnung. Fuer Log-Aktiviataeten -->
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sVerarbeitung">
+		<xsd:restriction base="xsd:string">
+		<!--
+			<xsd:enumeration value="STAMM"/>
+			<xsd:enumeration value="BUCHEN"/>
+			<xsd:enumeration value="BENUTZER"/>
+			<xsd:enumeration value="KURTAXLISTEN"/>
+			<xsd:enumeration value="FIRMENBETRIEBSARTEN"/>
+			<xsd:enumeration value="CHECK_FIRMA_UPD_MANMS"/>
+			<xsd:enumeration value="CHECK_OBJEKT_UPD_KTXORT"/>
+			<xsd:enumeration value="CHECK_OBJEKT_UPD_KTXZONE"/>
+			<xsd:enumeration value="BETRIEBSARTEN-F"/>
+			<xsd:enumeration value="BETRIEBSARTEN-O"/>
+		-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="sVersion">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="sPersonId">
+		<!-- gemappter Tabellenwert -->
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sParameter">
+		<!-- gemappter Tabellenwert -->
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sBarcode">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sLandISO">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sLandId">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sAnredeId">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="sExportId">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:complexType name="cLand">
+	    <!-- Land  -->
+	    <xsd:sequence>
+	        <xsd:element name="land-id" type="ms:sLandId" minOccurs="0"/>
+	        <xsd:element name="land-iso" type="ms:sLandISO" minOccurs="0"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	<!--
+	<xsd:complexType name="cAnrede">
+	    
+	    <xsd:choice>
+	        <xsd:element name="anrede-id" type="ms:sAnredeId"/>
+	        <xsd:element name="anrede" type="ms:string"/>
+	    </xsd:choice>
+	</xsd:complexType>
+	-->
+	<xsd:complexType name="cPerson">
+	    <!-- Personen fuer Export zu  -->
+	    <xsd:sequence>
+	        <xsd:element minOccurs="0" name="personid" type="ms:sPersonId"/>
+	        <xsd:element minOccurs="1" name="adresse" type="ms:cAdresse"/>
+	        <xsd:element minOccurs="0" name="geburtsdatum" type="ms:sGeburtsdatum"/>
+	        <xsd:element minOccurs="0" name="staatsangehoerigkeitid" type="ms:cLand"/>
+	        <xsd:element name="kategorieid" type="ms:sKategorieId"/><!-- Berechnungs-Parameter -->
+	        <xsd:element minOccurs="0" name="anreise" type="ms:sAnreise"/><!-- Berechnungs-Parameter -->
+	        <xsd:element minOccurs="0" name="abreise" type="ms:sAbreise"/><!-- Berechnungs-Parameter -->
+	        <xsd:element name="barcode" type="ms:sBarcode" minOccurs="0"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cMeldeschein">
+	    <xsd:sequence>
+	        <xsd:element name="ort-id" type="ms:sOrtId"/>
+	        <xsd:element name="buchungsnummer" type="ms:sBuchungsnummer"/><!-- Meldeschein-Nummer des Fremdsystems  -->
+	        <xsd:element minOccurs="0" name="meldescheinnummer" type="ms:sMsnr"/><!-- wird vom Meldeschein-System vergeben -->
+	        <xsd:element name="firmaid" type="ms:sFirmaid" minOccurs="1" nillable="true"/><!-- Firma-Id, ueber diese wird der Bezug zur Firma hergestellt -->
+	        <xsd:element name="objektid" type="ms:sObjektid" minOccurs="1" nillable="false"/><!-- Objekt-Id, ueber diese wird der Bezug zum Objekt hergestellt --><!-- Berechnungs-Parameter --><!-- Berechnungs-Parameter --><!-- Berechnungs-Parameter --><!-- gemappter Tabellenwert --><!-- gemappter Tabellenwert --><!-- gemappter Tabellenwert -->
+	        <xsd:element minOccurs="1" maxOccurs="1" name="hauptperson" type="ms:cPerson"/>
+	        <xsd:element minOccurs="0" name="weitere_angaben" type="ms:sAusweisnummer"><!-- entspricht der Ausweisnummer, nur Ziffern erlaubt --></xsd:element>
+	        <xsd:element minOccurs="0" name="kfzkennzeichen" type="xsd:string"/>
+	        <xsd:element minOccurs="0" name="betrag" type="ms:sBetrag"/><!-- wird vom Meldeschein-System berechnet und zurueckgegeben -->
+	        <xsd:element name="abrechnungstatusid" type="ms:sAbrechnungstatusId" minOccurs="0"/><!-- todo: klaeren, ob notwendig -->
+	        <xsd:element name="zusatzfelder" type="ms:cMeldescheinZusatzfelder" minOccurs="0"/>
+	        <xsd:choice>
+	            <xsd:element minOccurs="0" maxOccurs="unbounded" name="begleitperson" type="ms:cPerson"/>
+	            <xsd:element name="begleitgruppe" type="ms:cBegleitgruppe" maxOccurs="unbounded" minOccurs="0"/>
+	        </xsd:choice>
+	        <xsd:element name="export-id" type="ms:sExportId" minOccurs="0"/>
+	    </xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="sOrtId">
+	    <!-- MandantId / Id der Kurverwaltung. 
+		todo: im Moment vorgegebener Wertebereich (->Sicherheit) -->
+	    <xsd:restriction base="xsd:integer">
+	    </xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="sBinaerdaten">
+		<!-- wird vom Meldeschein-System vergeben -->
+		<xsd:restriction base="xsd:base64Binary"/>
+	</xsd:simpleType>
+	<xsd:complexType name="cMeldescheinRegister">
+		<xsd:sequence>
+			<xsd:element name="ort-id" type="ms:sOrtId" minOccurs="1"/>
+			<xsd:element minOccurs="1" name="meldescheinnummer" type="ms:sMsnr"/><!-- Meldeschein-Nummer des Fremdsystems  --><!-- wird vom Meldeschein-System vergeben -->			
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cMeldescheinZusatzfelder" abstract="false">
+		<xsd:sequence>
+			<xsd:element name="sb-versorgungsamtnr" type="xsd:string" minOccurs="0"/>
+			<xsd:element minOccurs="0" name="sb-gueltig-bis" type="xsd:date"/><!-- Meldeschein-Nummer des Fremdsystems  --><!-- wird vom Meldeschein-System vergeben -->
+			<xsd:element minOccurs="0" name="freie-tage" type="xsd:integer"/>
+                        <xsd:element name="firmenname" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="taetigkeitsort" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

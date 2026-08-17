@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0-wls122140-b190328.0053 svn-revision#unknown. --><!-- package de.avs.meldeschein.webservices.xmlbinding --><xsd:schema xmlns:ms="http://www.avs.meldeschein.de/ns/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:avs="http://www.avs.de/ns/" targetNamespace="http://www.avs.meldeschein.de/ns/">
+	<xsd:include schemaLocation="./meldeschein_datentypen.xsd"/>
+	<xsd:include schemaLocation="./meldeschein_buchen.xsd"/>
+	<xsd:element name="configuration-lists">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="identifikation" type="ms:cIdentifikation">
+				</xsd:element>
+				<xsd:element name="params" minOccurs="0" maxOccurs="1" type="ms:cParameter"/>
+				<xsd:element minOccurs="0" name="fehlermeldungen" type="ms:cFehlermeldungen"/>
+				<xsd:element name="konfigliste" minOccurs="0" maxOccurs="1" type="ms:cKonfigurationsliste"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="generic-response">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="version" type="ms:sVersion" minOccurs="0"/>
+				<xsd:element minOccurs="1" name="fehlermeldungen" type="ms:cFehlermeldungen"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
